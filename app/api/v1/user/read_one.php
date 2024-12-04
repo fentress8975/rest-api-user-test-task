@@ -7,7 +7,8 @@ header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json");
 
 include_once "php/database.php";
-include_once "api/objects/product.php";
+include_once "api/v1/objects/user.php"; 
+
 
 $database = new Database();
 $db = $database->getConnection();
@@ -34,5 +35,5 @@ if ($user->login != null) {
 } else {
     http_response_code(404);
 
-    echo json_encode(array("message" => "Такого пользователя нет"), JSON_UNESCAPED_UNICODE);
+    echo json_encode(array("message" => "Такого пользователя нет"));
 }

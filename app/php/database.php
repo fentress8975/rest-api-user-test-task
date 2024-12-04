@@ -13,12 +13,12 @@ class Database
 
     public function getConnection()
     {
-        
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         try {
-            $db = new mysqli($this->host, $this->user, $this->password, $this->dbname, $this->port);
-            $db->set_charset($this->charset);
-            $db->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
+            $this->db = new mysqli($this->host, $this->user, $this->password, $this->dbname, $this->port);
+            $this->db->set_charset($this->charset);
+            $this->db->options(MYSQLI_OPT_INT_AND_FLOAT_NATIVE, 1);
+            return $this->db;
         } catch (\Throwable $th) {
             echo "Ошибка подключения к БД: \n";
             echo $th->getMessage();
