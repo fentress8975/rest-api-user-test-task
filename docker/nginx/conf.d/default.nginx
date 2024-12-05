@@ -11,7 +11,7 @@ server {
             }
 
     location ~ api\b.*{
-        return 302 /index.php?api=$request_uri;
+        return 308 /index.php?api=$request_uri;
     }
     
 
