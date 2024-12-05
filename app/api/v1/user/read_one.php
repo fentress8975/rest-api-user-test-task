@@ -7,7 +7,7 @@ header("Access-Control-Allow-Credentials: true");
 header("Content-Type: application/json");
 
 include_once "php/database.php";
-include_once "api/v1/objects/user.php"; 
+include_once "api/v1/objects/user.php";
 
 
 $database = new Database();

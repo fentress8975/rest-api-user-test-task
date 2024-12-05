@@ -24,11 +24,10 @@ class Database
             echo $th->getMessage();
             die();
         }
-
     }
 
     function __destruct()
     {
-        mysqli_close($this->db);  
+        mysqli_close($this->db);
     }
 }

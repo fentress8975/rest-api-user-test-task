@@ -18,6 +18,14 @@ class user
         $this->db = $db;
     }
 
+    private function readOne_p()
+    {
+        $sql = "SELECT login, password FROM users WHERE login=? AND password=?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([$this->login, $this->password]);
+        return $stmt->get_result()->num_rows;
+    }
+
 
     function readOne()
     {
@@ -82,7 +90,14 @@ class user
         return false;
     }
 
-    function authentication() {}
+    function authentication()
+    {
+        if ($this->readOne_p() == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     function read()
     {
