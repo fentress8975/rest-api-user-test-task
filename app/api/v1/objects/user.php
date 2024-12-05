@@ -45,7 +45,15 @@ class user
         return false;
     }
 
-    function delete() {}
+    function delete()
+    {
+        $sql = "UPDATE users SET deleted = 1 WHERE id = ?";
+
+        $stmt = $this->db->prepare($sql);
+        if ($stmt->execute([$this->id])) {
+            return true;
+        }
+    }
 
     function update()
     {

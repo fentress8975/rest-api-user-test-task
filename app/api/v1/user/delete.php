@@ -1,11 +1,28 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: access");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Credentials: true");
-header("Content-Type: application/json");
+header("Content-Type: application/json; charset=UTF-8");
+header("Access-Control-Allow-Methods: DELETE");
+header("Access-Control-Max-Age: 3600");
+header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 include_once "php/database.php";
 include_once "api/v1/objects/user.php";
 
-echo "delete";
+$database = new Database();
+$db = $database->getConnection();
+
+$user = new User($db);
+
+$data = json_decode(file_get_contents('php://input'), true);
+
+$user->id = $data['id'];
+
+if ($user->delete()) {
+    http_response_code(200);
+
+    echo json_encode(array("message" => "Пользователь был удалён"));
+} else {
+    http_response_code(503);
+
+    echo json_encode(array("message" => "Не удалось удалить пользователя"));
+}
