@@ -1,12 +1,12 @@
 <?php
 
-if (!($_GET)) {
+if (!($_SERVER["REQUEST_URI"])) {
     http_response_code(400);
     echo "Пустой запрос";
     die();
 }
 
-$arg = explode("/", $_GET["api"]);
+$arg = explode("/", $_SERVER["REQUEST_URI"]);
 
 if ($arg[1] === "api") {
 
@@ -19,7 +19,7 @@ if ($arg[1] === "api") {
 
         default:
             http_response_code(400);
-            echo "Неверный запрос {$_GET["api"]}";
+            echo "Неверный запрос {$_SERVER["REQUEST_URI"]}";
             die();
             break;
     }
@@ -27,7 +27,8 @@ if ($arg[1] === "api") {
 
 function executeUserMethod($arg)
 {
-    switch ($arg) {
+    if ($_SERVER["REQUEST_METHOD"] === "GET") $arg = explode("?", $arg);
+    switch ($arg[0]) {
         case 'authentication':
             include_once "api/v1/user/authentication.php";
             break;
@@ -48,7 +49,7 @@ function executeUserMethod($arg)
             break;
         default:
             http_response_code(400);
-            echo "Такого метода не существует $arg";
+            echo "Такого метода не существует $arg[0]";
             die();
             break;
     }
