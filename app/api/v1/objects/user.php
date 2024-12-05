@@ -19,7 +19,8 @@ class user
     }
 
 
-    function readOne(){
+    function readOne()
+    {
         $sql = "SELECT id, login, description, created, modified, deleted FROM users WHERE id = ?";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([$this->id]);
@@ -33,36 +34,53 @@ class user
         $this->deleted = $row['deleted'];
     }
 
-    function create(){
+    function create()
+    {
         $sql = "INSERT INTO users(login, password, description) VALUES (?,?,?)";
         $stmt = $this->db->prepare($sql);
-        if($stmt->execute([$this->login,$this->password,$this->description])){
+        if ($stmt->execute([$this->login, $this->password, $this->description])) {
             return true;
         }
-        
+
         return false;
     }
 
-    function delete(){
+    function delete() {}
 
+    function update()
+    {
+        //$sql = "UPDATE users SET login = ?, password = ?, description = ? WHERE id = ?";
+        $sql = "UPDATE users SET ";
+        if (!empty($this->login)) {
+            $sql .= "login = ?, ";
+            $args[] = $this->login;
+        }
+        if (!empty($this->password)) {
+            $sql .= "password = ?, ";
+            $args[] = $this->password;
+        }
+        if (!empty($this->description)) {
+            $sql .= "description = ? ";
+            $args[] = $this->description;
+        }
+        $sql .= "WHERE id = ?";
+        $args[] = $this->id;
+
+        $stmt = $this->db->prepare($sql);
+        if ($stmt->execute($args)) {
+            return true;
+        }
+
+        return false;
     }
 
-    function update(){
+    function authentication() {}
 
-    }
-
-    function authentication(){
-
-    }
-
-    function read(){
+    function read()
+    {
         $sql = "SELECT id, login, description, created, modified, deleted FROM users WHERE 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
         return $stmt;
-
     }
-
-
-    
 }
